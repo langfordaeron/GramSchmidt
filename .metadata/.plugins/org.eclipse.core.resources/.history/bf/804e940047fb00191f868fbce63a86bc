@@ -180,9 +180,9 @@ public class GramSchmidtTest {
 		for (int i = 0; i < result.size(); i++) {
 			for (int j = 0; j < result.size(); j++) {
 				if (i != j) {
-					assertEquals(0.0, matrix[i][j], 1E-10);
+					assertEquals(0.0, matrix[i][j], 1E-11);
 				} else {
-					assertEquals(1.0, matrix[i][j], 1E-10);					
+					assertEquals(1.0, matrix[i][j], 1E-11);					
 				}
 			}
 		}
