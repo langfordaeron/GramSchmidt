@@ -1,0 +1,36 @@
+import static org.junit.Assert.*;
+
+import java.util.Arrays;
+
+import org.junit.Test;
+
+public class VectorTest {
+
+	@Test
+	public void testAddData() {
+		double[] data = {1.0, 2.0, 3.0};
+		Vector vector = new Vector(3);
+		vector.addData(data);
+		assertEquals(Arrays.toString(vector.getData()), Arrays.toString(data));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testInvalidLength() {
+		double[] data = {1.0, 2.0, 3.0};
+		Vector vector = new Vector(4);
+		vector.addData(data);		
+	}
+	
+	public testAddVectors() {
+		double[] data1 = {1.0, 1.0, 2.0};
+		double[] data2 = {1.0, 3.0, 1.0};
+		double alpha = 2.0;
+		double[] result = {3.0, 7.0, 4.0};
+		Vector vector = new Vector(3);
+		vector.addData(data1);	
+		Vector vector = new Vector(3);
+		vector.addData(data2);
+		
+	}
+
+}

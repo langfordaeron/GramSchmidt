@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="GramSchmidtTest" project="GramSchmidt" tests="4" started="4" failures="0" errors="0" ignored="0">
+  <testsuite name="GramSchmidtTest" time="0.001">
+    <testcase name="testKhanExampleSmall" classname="GramSchmidtTest" time="0.0"/>
+    <testcase name="testKhanExampleSmallModified" classname="GramSchmidtTest" time="0.0"/>
+    <testcase name="testKhanExampleLargerModified" classname="GramSchmidtTest" time="0.0"/>
+    <testcase name="testKhanExampleLarger" classname="GramSchmidtTest" time="0.001"/>
+  </testsuite>
+</testrun>

@@ -1,0 +1,12 @@
+
+public class Vector {
+
+	int[] data; 
+	
+	public Vector(int size) {
+		data = new int[size];
+	}
+	
+	
+	
+}

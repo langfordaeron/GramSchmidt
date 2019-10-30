@@ -1,0 +1,52 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class GramSchmidt {
+
+	public static final int NUM_VECTORS = 3;
+	
+	public static void main(String[] args) {
+		List<Vector> vectors = new ArrayList<Vector>();
+		populateData(vectors);
+
+		List<Vector> orthoNormalVectors = new ArrayList<Vector>();
+		Vector v1 = vectors.get(0).makeCopy();
+		v1.normalize();
+		orthoNormalVectors.add(v1);
+		
+		System.out.println("v1 " + v1);
+		
+		Vector proj2 = orthoNormalVectors.get(0).multiplyByScalar(vectors.get(1).innerProduct(orthoNormalVectors.get(0)));
+		//System.out.println(proj2);
+		Vector v2 = vectors.get(1).addVectors(proj2, -1);
+		v2.normalize();
+		orthoNormalVectors.add(v2);
+		System.out.println("v2 " + v2);
+	
+		System.out.println(vectors.get(3 - 1).innerProduct(orthoNormalVectors.get(1)));
+		
+		Vector proj3_1 = orthoNormalVectors.get(0).multiplyByScalar(vectors.get(3 - 1).innerProduct(orthoNormalVectors.get(0)));
+		Vector proj3_2 = orthoNormalVectors.get(1).multiplyByScalar(vectors.get(3 - 1).innerProduct(orthoNormalVectors.get(1)));
+
+		System.out.println(proj3_1);
+		System.out.println(proj3_2);
+
+		
+	}
+	
+	
+	public static void populateData(List<Vector> vectors) {
+		double[] data1 = {0, 0, 1, 1};
+		double[] data2 = {0, 1, 1, 0};
+		double[] data3 = {1, 1, 0, 0};
+		
+		Vector v1 = new Vector(4, data1);
+		Vector v2 = new Vector(4, data2);
+		Vector v3 = new Vector(4, data3);
+		
+		vectors.add(v1);
+		vectors.add(v2);
+		vectors.add(v3);
+	}
+	
+}

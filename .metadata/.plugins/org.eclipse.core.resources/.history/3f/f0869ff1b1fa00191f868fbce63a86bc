@@ -1,0 +1,30 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class GramSchmidt {
+
+	public static final int NUM_VECTORS = 3;
+	
+	public static void main(String[] args) {
+		List<Vector> vectors = new ArrayList<Vector>();
+		populateData(vectors);
+
+		
+	}
+	
+	
+	public static void populateData(List<Vector> vectors) {
+		double[] data1 = {0, 0, 1, 1};
+		double[] data2 = {0, 1, 1, 0};
+		double[] data3 = {1, 1, 0, 0};
+		
+		Vector v1 = new Vector(4, data1);
+		Vector v2 = new Vector(4, data2);
+		Vector v3 = new Vector(4, data3);
+		
+		vectors.add(v1);
+		vectors.add(v2);
+		vectors.add(v3);
+	}
+	
+}
