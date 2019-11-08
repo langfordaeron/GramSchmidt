@@ -215,4 +215,7 @@ public class GramSchmidtTest {
 			}
 		}
 	}
+	
+	// put error values in matrix to view distribution of errors 
+	// print/plot out 
 }

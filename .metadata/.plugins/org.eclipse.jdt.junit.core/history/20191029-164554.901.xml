@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="VectorTest" project="GramSchmidt" tests="4" started="4" failures="0" errors="0" ignored="0">
-  <testsuite name="VectorTest" time="0.0">
-    <testcase name="testAddData" classname="VectorTest" time="0.0"/>
-    <testcase name="testInvalidLength" classname="VectorTest" time="0.0"/>
-    <testcase name="testAddVectors" classname="VectorTest" time="0.0"/>
-    <testcase name="testInnerProduct" classname="VectorTest" time="0.0"/>
-  </testsuite>
-</testrun>

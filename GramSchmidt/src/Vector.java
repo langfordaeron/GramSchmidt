@@ -26,6 +26,17 @@ public class Vector {
 		}
 	}
 	
+	// populates data with random floating point values
+	// in the range -1000 to 1000	
+	public void addRandomLargeData() {
+		int min = -1000;
+		int max = 1000;
+		Random rand = new Random();
+		for (int i = 0; i < data.length; i++) {
+			data[i] = min + rand.nextDouble() * (max - min);
+		}		
+	}
+	
 	// copies the data values
 	// throws exception if lengths are not the same
 	public void addData(double[] data) {
