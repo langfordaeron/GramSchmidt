@@ -15,13 +15,6 @@ public class GramSchmidtTestVisual {
 		//printsGramSchmidtLinearlyDependentVectors();
 	}
 	
-	// computes the norm of I - Q^T * Q
-	public static void orthogonalityTest() {
-		System.out.println("Orthogonality Test");
-		List<Vector> vectors = populateRandomVectors();
-
-	}
-	
 	// prints a matrix of size VECTOR_SIZE x NUM_VECTORS with each 
 	// element being the inner product of each vector from the result of 
 	// Gram Schmidt times 10^{10} 

@@ -1,0 +1,40 @@
+import static org.junit.Assert.*;
+
+import java.util.List;
+import java.util.ArrayList;
+
+import org.junit.Test;
+
+public class MatrixTest {
+
+	@Test
+	public void test() {
+		Vector vector1 = new Vector(3, new double[]{1.0, 1.0, 2.0});
+		Vector vector2 = new Vector(3, new double[]{1.0, 3.0, 1.0});
+		List<Vector> vectors = new ArrayList<>();
+		vectors.add(vector1);
+		vectors.add(vector2);
+		Matrix matrix1 = new Matrix(2, 3, vectors);
+		double[][] matrixData = matrix1.getData();
+		double[][] data = {{1.0, 1.0, 2.0}, {1.0, 3.0, 1.0}};
+		
+		for (int i = 0; i < 2; i++) {
+			assertArrayEquals(matrixData[i],  data[i], 1E-6);					
+		}
+
+		
+	}
+	
+	@Test
+	public void test2DArray() {
+		double[][] data = {{1.0, 1.0, 2.0}, {1.0, 3.0, 1.0}};
+		Matrix matrix2 = new Matrix(2, 3, data);
+		double[][] matrixData = matrix2.getData();		
+		
+		for (int i = 0; i < 2; i++) {
+			assertArrayEquals(matrixData[i],  data[i], 1E-6);					
+		}
+		
+	}
+
+}

@@ -1,0 +1,49 @@
+import java.util.List;
+
+public class Matrix {
+
+	private int n;
+	private int m;
+	private double[][] matrix;
+	
+	public Matrix(int n, int m) {
+		this.n = n;
+		this.m = m;
+		this.matrix = new double[n][m];
+	}
+
+	// creates new n by m matrix
+	public Matrix(int n, int m, List<Vector> vectors) {
+		this(n, m);
+		if (vectors.size() != n) {
+			throw new IllegalArgumentException("size of vectors is " + vectors.size() + " should be " + n);
+		}
+		for (int i = 0; i < n; i++) {
+			Vector v = vectors.get(i);
+			for (int j = 0; j < m; j++) {
+				matrix[i][j] = v.getData()[j];
+			}
+		}
+	}
+	
+	public Matrix(int n, int m, double[][] data) {
+		this(n, m);
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				this.matrix[i][j] = data[i][j];
+			}
+		}
+	}
+	
+	public Matrix getTranspose() {
+		double[][] transpose = new double[this.m][this.n];
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				transpose[i][j] = this.matrix[j][i];
+			}
+		}
+		return new Matrix(this.m, this.n, transpose); 
+	}
+	
+	
+}
