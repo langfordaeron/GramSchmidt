@@ -1,6 +1,7 @@
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GramSchmidtTestVisual {
 	
@@ -11,7 +12,7 @@ public class GramSchmidtTestVisual {
 		
 		//printGramSchmidtMatrix();
 		printGramSchmidtMatrixModified();
-		
+		//printsGramSchmidtLinearlyDependentVectors();
 	}
 	
 	// prints a matrix of size VECTOR_SIZE x NUM_VECTORS with each 
@@ -21,8 +22,8 @@ public class GramSchmidtTestVisual {
 		System.out.println("Regular Gram Schmidt");
 		List<Vector> vectors = populateRandomVectors();
 		List<Vector> result = GramSchmidt.gramSchmidt(vectors);
-		double[][] matrix = populateMatrixTest(result);
-		printMatrix(matrix);
+		double[][] matrix = populateMatrixTest(result, NUM_VECTORS, VECTOR_SIZE);
+		printMatrixMagnified(matrix, Math.pow(10, 11));
 	}
 
 	// prints a matrix of size VECTOR_SIZE x NUM_VECTORS with each 
@@ -32,9 +33,25 @@ public class GramSchmidtTestVisual {
 		System.out.println("Modified Gram Schmidt");
 		List<Vector> vectors = populateRandomVectors();
 		List<Vector> result = GramSchmidt.gramSchmidtModified(vectors);
-		double[][] matrix = populateMatrixTest(result);
-		printMatrix(matrix);
+		double[][] matrix = populateMatrixTest(result, NUM_VECTORS, VECTOR_SIZE);
+		printMatrixMagnified(matrix, Math.pow(10, 11));
 	}
+	
+	public static void printsGramSchmidtLinearlyDependentVectors() {
+		System.out.println("Gram Schmidt with Linearly Dependent Vectors");
+		int numVectors = 5, vectorSize = 5;
+		List<Vector> vectors = populateRandomDependentVectors(numVectors, vectorSize);
+		System.out.println("Original Vectors: ");
+		for (Vector vector: vectors) {
+			System.out.println(vector);
+		}
+		System.out.println("Inner Product Matrix: ");
+		List<Vector> result = GramSchmidt.gramSchmidt(vectors);
+		double[][] matrix = populateMatrixTest(result, numVectors, vectorSize);
+		printMatrixMagnified(matrix, Math.pow(10, 11));	
+	}
+	
+	// span of q1, q2, q3 ... a1, a2, a3
 	
 	public static List<Vector> populateRandomVectors() {
 		List<Vector> vectors = new ArrayList<Vector>();	
@@ -45,8 +62,32 @@ public class GramSchmidtTestVisual {
 		return vectors;
 	}
 	
-	public static double[][] populateMatrixTest(List<Vector> result) {
-		double[][] matrix = new double[NUM_VECTORS][VECTOR_SIZE];
+	// populates list of random normalized linearly independent vectors
+	// by generating 5 vectors with random floating point values
+	// from 0 to 1. Then we select one vector and add very large components
+	// of two other vectors from the list. Then all vectors are normalized. 
+	public static List<Vector> populateRandomDependentVectors(int numVectors, int vectorSize) {
+		List<Vector> vectors = new ArrayList<Vector>();	
+		for (int i = 0; i < numVectors; i++) {
+			vectors.add(new Vector(vectorSize)); 
+			vectors.get(i).addRandomData();
+		}
+		Random rand = new Random();
+		int largeRandom1 = rand.nextInt(1000) + 1000; // random between [1000, 2000)
+		int largeRandom2 = rand.nextInt(1000) + 1000; // random between [1000, 2000)
+		Vector v1 = vectors.get(0);
+		Vector v2 = vectors.get(1);
+		Vector v3 = vectors.get(2);
+		v3 = v3.addVectors(v1, largeRandom1);
+		v3 = v3.addVectors(v2, largeRandom2);
+		for (int i = 0; i < numVectors; i++) {
+			vectors.get(i).normalize();
+		}
+		return vectors;
+	}
+	
+	public static double[][] populateMatrixTest(List<Vector> result, int numVectors, int vectorSize) {
+		double[][] matrix = new double[numVectors][vectorSize];
 		for (int i = 0; i < result.size(); i++) {
 			for (int j = 0; j < result.size(); j++) {
 				matrix[i][j] = result.get(i).innerProduct(result.get(j));
@@ -55,11 +96,11 @@ public class GramSchmidtTestVisual {
 		return matrix;
 	}
 	
-	public static void printMatrix(double[][] matrix) {
+	public static void printMatrixMagnified(double[][] matrix, double scaleBy) {
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[0].length; j++) {
 		        DecimalFormat df = new DecimalFormat("####0.0000");
-		        System.out.print(Double.parseDouble(df.format(Math.abs(matrix[i][j] * Math.pow(10, 11)))) + "\t");
+		        System.out.print(Double.parseDouble(df.format(Math.abs(matrix[i][j] * scaleBy))) + "\t");
 			    //System.out.printf("%4f\t", (matrix[i][j]) * Math.pow(10, 10));
 			}
 			System.out.println();
