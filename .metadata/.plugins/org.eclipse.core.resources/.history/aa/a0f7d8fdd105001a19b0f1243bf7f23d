@@ -9,9 +9,9 @@ public class GramSchmidtTestVisual {
 	public static int VECTOR_SIZE = 50; 
 	
 	public static void main(String[] args) {
-		orthogonalityTest();
+		
 		//printGramSchmidtMatrix();
-		//printGramSchmidtMatrixModified();
+		printGramSchmidtMatrixModified();
 		//printsGramSchmidtLinearlyDependentVectors();
 	}
 	
@@ -21,10 +21,8 @@ public class GramSchmidtTestVisual {
 		List<Vector> vectors = populateRandomVectors(5, 5);
 		List<Vector> result = GramSchmidt.gramSchmidt(vectors);
 		Matrix matrixResult = new Matrix(5, 5, result);
-		Matrix resultTranspose = matrixResult.getTranspose();
-		Matrix identity = makeIdentityMatrix(5);
-		Matrix difference = identity.getDifference(matrixResult.getDotProduct(resultTranspose));
-		System.out.println(difference.getNorm());
+		Matrix identity
+		Matrix difference = 
 	}
 	
 	// prints a matrix of size VECTOR_SIZE x NUM_VECTORS with each 
@@ -67,8 +65,8 @@ public class GramSchmidtTestVisual {
 	
 	public static List<Vector> populateRandomVectors(int numVectors, int vectorSize) {
 		List<Vector> vectors = new ArrayList<Vector>();	
-		for (int i = 0; i < numVectors; i++) {
-			vectors.add(new Vector(vectorSize)); 
+		for (int i = 0; i < NUM_VECTORS; i++) {
+			vectors.add(new Vector(VECTOR_SIZE)); 
 			vectors.get(i).addRandomData();
 		}
 		return vectors;

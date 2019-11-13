@@ -21,9 +21,8 @@ public class GramSchmidtTestVisual {
 		List<Vector> vectors = populateRandomVectors(5, 5);
 		List<Vector> result = GramSchmidt.gramSchmidt(vectors);
 		Matrix matrixResult = new Matrix(5, 5, result);
-		Matrix resultTranspose = matrixResult.getTranspose();
 		Matrix identity = makeIdentityMatrix(5);
-		Matrix difference = identity.getDifference(matrixResult.getDotProduct(resultTranspose));
+		Matrix difference = identity.getSubtraction(matrixResult);
 		System.out.println(difference.getNorm());
 	}
 	

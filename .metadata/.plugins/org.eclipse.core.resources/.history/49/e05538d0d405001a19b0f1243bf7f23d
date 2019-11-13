@@ -66,11 +66,11 @@ public class MatrixTest {
 	// 11 12
 	@Test 
 	public void testDotProduct() {
-		Matrix matrix1 = new Matrix(2, 3, new double[][] {{1, 2, 3}, {4, 5, 6}});
-		Matrix matrix2 = new Matrix(3, 2, new double[][] {{7, 8}, {9, 10}, {11, 12}});
+		Matrix matrix1 = new Matrix(2, 3, new double[][] {{1, 4}, {2, 5}, {3, 6}});
+		Matrix matrix2 = new Matrix(3, 2, new double[][] {{7, 9, 11}, {8, 10, 12}});
 		Matrix product = matrix1.getDotProduct(matrix2);
 		double[][] productActual = product.getData();
-		double[][] expected = {{58, 64}, {139, 154}};
+		double[][] expected = {{58, 139}, {64, 154}};
 		System.out.println(Arrays.deepToString(productActual));
 		for (int i = 0; i < 2; i++) {
 			assertArrayEquals(expected[i],  productActual[i], 1E-10);					

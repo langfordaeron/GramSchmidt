@@ -46,33 +46,17 @@ public class Matrix {
 		return new Matrix(this.m, this.n, transpose); 
 	}
 	
-	public Matrix getDifference(Matrix other) {
+	public Matrix getSubtraction(Matrix other) {
 		if (this.n != other.n || this.m != other.m) {
 			throw new IllegalArgumentException("matrices not the same size");
 		}
-		double[][] difference = new double[this.n][this.m];
+		double[][] difference = new double[this.m][this.n];
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				difference[i][j] = this.matrix[i][j] - other.matrix[i][j];
 			}
 		}
-		return new Matrix(this.n, this.m, difference);
-	}
-	
-	public Matrix getDotProduct(Matrix other) {
-		if (this.m != other.n) {
-			throw new IllegalArgumentException("matrices not the compatible sizes");
-		}
-		double[][] product = new double[this.n][other.m];
-		for (int i = 0; i < this.n; i++) {
-			for (int j = 0; j < other.m; j++) {
-				for (int k = 0; k < this.m; k++) {
-					product[i][j] += this.matrix[i][k] * other.matrix[k][j];
-				}
-			}
-		}
-		
-		return new Matrix(this.n, other.m, product);
+		return new Matrix(this.m, this.n, difference);
 	}
 	
 	// returns the frobenius norm 

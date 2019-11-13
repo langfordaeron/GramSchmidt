@@ -34,6 +34,8 @@ public class Matrix {
 				this.matrix[i][j] = data[i][j];
 			}
 		}
+		System.out.println(Arrays.deepToString(this.matrix));
+
 	}
 	
 	public Matrix getTranspose() {

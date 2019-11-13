@@ -34,6 +34,8 @@ public class Matrix {
 				this.matrix[i][j] = data[i][j];
 			}
 		}
+		System.out.println(Arrays.deepToString(this.matrix));
+
 	}
 	
 	public Matrix getTranspose() {
@@ -72,7 +74,7 @@ public class Matrix {
 			}
 		}
 		
-		return new Matrix(this.n, other.m, product);
+		return new Matrix(this.m, this.n, product);
 	}
 	
 	// returns the frobenius norm 

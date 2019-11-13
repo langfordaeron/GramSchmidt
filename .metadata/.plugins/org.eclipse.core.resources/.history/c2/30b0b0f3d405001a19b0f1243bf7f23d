@@ -72,7 +72,7 @@ public class Matrix {
 			}
 		}
 		
-		return new Matrix(this.n, other.m, product);
+		return new Matrix(this.m, this.n, product);
 	}
 	
 	// returns the frobenius norm 

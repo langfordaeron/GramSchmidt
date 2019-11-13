@@ -9,22 +9,17 @@ public class GramSchmidtTestVisual {
 	public static int VECTOR_SIZE = 50; 
 	
 	public static void main(String[] args) {
-		orthogonalityTest();
+		
 		//printGramSchmidtMatrix();
-		//printGramSchmidtMatrixModified();
+		printGramSchmidtMatrixModified();
 		//printsGramSchmidtLinearlyDependentVectors();
 	}
 	
 	// computes the norm of I - Q^T * Q
 	public static void orthogonalityTest() {
 		System.out.println("Orthogonality Test");
-		List<Vector> vectors = populateRandomVectors(5, 5);
-		List<Vector> result = GramSchmidt.gramSchmidt(vectors);
-		Matrix matrixResult = new Matrix(5, 5, result);
-		Matrix resultTranspose = matrixResult.getTranspose();
-		Matrix identity = makeIdentityMatrix(5);
-		Matrix difference = identity.getDifference(matrixResult.getDotProduct(resultTranspose));
-		System.out.println(difference.getNorm());
+		List<Vector> vectors = populateRandomVectors();
+
 	}
 	
 	// prints a matrix of size VECTOR_SIZE x NUM_VECTORS with each 
@@ -32,7 +27,7 @@ public class GramSchmidtTestVisual {
 	// Gram Schmidt times 10^{10} 
 	public static void printGramSchmidtMatrix() {
 		System.out.println("Regular Gram Schmidt");
-		List<Vector> vectors = populateRandomVectors(NUM_VECTORS, VECTOR_SIZE);
+		List<Vector> vectors = populateRandomVectors();
 		List<Vector> result = GramSchmidt.gramSchmidt(vectors);
 		double[][] matrix = populateMatrixTest(result, NUM_VECTORS, VECTOR_SIZE);
 		printMatrixMagnified(matrix, Math.pow(10, 11));
@@ -43,7 +38,7 @@ public class GramSchmidtTestVisual {
 	// Modified Gram Schmidt times 10^{10} 
 	public static void printGramSchmidtMatrixModified() {
 		System.out.println("Modified Gram Schmidt");
-		List<Vector> vectors = populateRandomVectors(NUM_VECTORS, VECTOR_SIZE);
+		List<Vector> vectors = populateRandomVectors();
 		List<Vector> result = GramSchmidt.gramSchmidtModified(vectors);
 		double[][] matrix = populateMatrixTest(result, NUM_VECTORS, VECTOR_SIZE);
 		printMatrixMagnified(matrix, Math.pow(10, 11));
@@ -65,10 +60,10 @@ public class GramSchmidtTestVisual {
 	
 	// span of q1, q2, q3 ... a1, a2, a3
 	
-	public static List<Vector> populateRandomVectors(int numVectors, int vectorSize) {
+	public static List<Vector> populateRandomVectors() {
 		List<Vector> vectors = new ArrayList<Vector>();	
-		for (int i = 0; i < numVectors; i++) {
-			vectors.add(new Vector(vectorSize)); 
+		for (int i = 0; i < NUM_VECTORS; i++) {
+			vectors.add(new Vector(VECTOR_SIZE)); 
 			vectors.get(i).addRandomData();
 		}
 		return vectors;
@@ -117,19 +112,5 @@ public class GramSchmidtTestVisual {
 			}
 			System.out.println();
 		}
-	}
-	
-	public static Matrix makeIdentityMatrix(int numVectors) {
-		double[][] data = new double[numVectors][numVectors];
-		for (int i = 0; i < numVectors; i++) {
-			for (int j = 0; j < numVectors; j++) {
-				if (i == j) {
-					data[i][j] = 1;
-				} else {
-					data[i][j] = 0;
-				}
-			}
-		}
-		return new Matrix(numVectors, numVectors, data);
 	}
 }

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename method &apos;Matrix.getSubtraction(...)&apos; to &apos;getDifference&apos;&#x0A;- Original project: &apos;GramSchmidt&apos;&#x0A;- Original element: &apos;Matrix.getSubtraction(...)&apos;&#x0A;- Renamed element: &apos;Matrix.getDifference(...)&apos;&#x0A;- Update references to refactored element" delegate="false" deprecate="false" description="Rename method &apos;getSubtraction&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.method" input="/src&lt;{Matrix.java[Matrix~getSubtraction~QMatrix;" name="getDifference" references="true" stamp="1573621215963" version="1.0"/>
+</session>

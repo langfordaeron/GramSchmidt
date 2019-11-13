@@ -21,9 +21,8 @@ public class GramSchmidtTestVisual {
 		List<Vector> vectors = populateRandomVectors(5, 5);
 		List<Vector> result = GramSchmidt.gramSchmidt(vectors);
 		Matrix matrixResult = new Matrix(5, 5, result);
-		Matrix resultTranspose = matrixResult.getTranspose();
 		Matrix identity = makeIdentityMatrix(5);
-		Matrix difference = identity.getDifference(matrixResult.getDotProduct(resultTranspose));
+		Matrix difference = identity.getSubtraction(matrixResult);
 		System.out.println(difference.getNorm());
 	}
 	
@@ -67,8 +66,8 @@ public class GramSchmidtTestVisual {
 	
 	public static List<Vector> populateRandomVectors(int numVectors, int vectorSize) {
 		List<Vector> vectors = new ArrayList<Vector>();	
-		for (int i = 0; i < numVectors; i++) {
-			vectors.add(new Vector(vectorSize)); 
+		for (int i = 0; i < NUM_VECTORS; i++) {
+			vectors.add(new Vector(VECTOR_SIZE)); 
 			vectors.get(i).addRandomData();
 		}
 		return vectors;
