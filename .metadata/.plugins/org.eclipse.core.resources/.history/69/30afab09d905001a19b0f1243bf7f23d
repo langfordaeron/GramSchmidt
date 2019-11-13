@@ -21,11 +21,11 @@ public class GramSchmidtTestVisual {
 	// computes the norm of I - Q^T * Q
 	public static void orthogonalityTestGramSchmidt() {
 		System.out.print("Orthogonality Test with Unmodified: ");
-		List<Vector> vectors = populateRandomVectors(10, 10);
+		List<Vector> vectors = populateRandomVectors(5, 5);
 		List<Vector> result = GramSchmidt.gramSchmidt(vectors);
-		Matrix matrixResult = new Matrix(10, 10, result);
+		Matrix matrixResult = new Matrix(5, 5, result);
 		Matrix resultTranspose = matrixResult.getTranspose();
-		Matrix identity = makeIdentityMatrix(10);
+		Matrix identity = makeIdentityMatrix(5);
 		Matrix difference = identity.getDifference(matrixResult.getDotProduct(resultTranspose));
 		System.out.println(difference.getNorm());
 	}

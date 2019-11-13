@@ -15,17 +15,16 @@ public class GramSchmidtTestVisual {
 		//printGramSchmidtMatrixModified();
 		//printsGramSchmidtLinearlyDependentVectors();
 		linearIndependenceTestGramSchmidt();
-		linearIndependenceTestGramSchmidtModified();
 	}
 	
 	// computes the norm of I - Q^T * Q
 	public static void orthogonalityTestGramSchmidt() {
 		System.out.print("Orthogonality Test with Unmodified: ");
-		List<Vector> vectors = populateRandomVectors(10, 10);
+		List<Vector> vectors = populateRandomVectors(5, 5);
 		List<Vector> result = GramSchmidt.gramSchmidt(vectors);
-		Matrix matrixResult = new Matrix(10, 10, result);
+		Matrix matrixResult = new Matrix(5, 5, result);
 		Matrix resultTranspose = matrixResult.getTranspose();
-		Matrix identity = makeIdentityMatrix(10);
+		Matrix identity = makeIdentityMatrix(5);
 		Matrix difference = identity.getDifference(matrixResult.getDotProduct(resultTranspose));
 		System.out.println(difference.getNorm());
 	}
@@ -33,21 +32,21 @@ public class GramSchmidtTestVisual {
 	// computes the norm of I - Q^T * Q
 	public static void orthogonalityTestGramSchmidtModified() {
 		System.out.print("Orthogonality Test with Modified: ");
-		List<Vector> vectors = populateRandomVectors(10, 10);
+		List<Vector> vectors = populateRandomVectors(5, 5);
 		List<Vector> result = GramSchmidt.gramSchmidtModified(vectors);
-		Matrix matrixResult = new Matrix(10, 10, result);
+		Matrix matrixResult = new Matrix(5, 5, result);
 		Matrix resultTranspose = matrixResult.getTranspose();
-		Matrix identity = makeIdentityMatrix(10);
+		Matrix identity = makeIdentityMatrix(5);
 		Matrix difference = identity.getDifference(matrixResult.getDotProduct(resultTranspose));
 		System.out.println(difference.getNorm());
 	}
 
 	public static void linearIndependenceTestGramSchmidt() {
 		System.out.print("Linear Independence Test with Unmodified: ");
-		List<Vector> vectors = populateRandomVectors(10, 10);
-		Matrix matrixA = new Matrix(10, 10, vectors); // A
+		List<Vector> vectors = populateRandomVectors(5, 5);
+		Matrix matrixA = new Matrix(5, 5, vectors); // A
 		List<Vector> result = GramSchmidt.gramSchmidt(vectors);
-		Matrix matrixQ = new Matrix(10, 10, result); // Q
+		Matrix matrixQ = new Matrix(5, 5, result); // Q
 		Matrix resultQT = matrixQ.getTranspose(); //Q^T
 		Matrix difference = matrixA.getDifference(matrixQ.getDotProduct(resultQT).getDotProduct(matrixA));
 		System.out.println(difference.getNorm());
@@ -55,10 +54,10 @@ public class GramSchmidtTestVisual {
 
 	public static void linearIndependenceTestGramSchmidtModified() {
 		System.out.print("Linear Independence Test with Modified: ");
-		List<Vector> vectors = populateRandomVectors(10, 10);
-		Matrix matrixA = new Matrix(10, 10, vectors); // A
+		List<Vector> vectors = populateRandomVectors(5, 5);
+		Matrix matrixA = new Matrix(5, 5, vectors); // A
 		List<Vector> result = GramSchmidt.gramSchmidtModified(vectors);
-		Matrix matrixQ = new Matrix(10, 10, result); // Q
+		Matrix matrixQ = new Matrix(5, 5, result); // Q
 		Matrix resultQT = matrixQ.getTranspose(); //Q^T
 		Matrix difference = matrixA.getDifference(matrixQ.getDotProduct(resultQT).getDotProduct(matrixA));
 		System.out.println(difference.getNorm());
