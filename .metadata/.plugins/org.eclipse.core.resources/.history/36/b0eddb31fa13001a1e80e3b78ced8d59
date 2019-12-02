@@ -1,0 +1,44 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class GramSchmidt {
+	
+	// given a list of linearly independent vectors, returns a list
+	// of orthonormal vectors with the same span. Uses the gram schmidt
+	// algorithm 
+	public static List<Vector> gramSchmidt(List<Vector> vectors) {
+		List<Vector> orthonormalVectors = new ArrayList<Vector>();
+		for (int i = 0; i < vectors.size(); i++) {
+			Vector v = vectors.get(i).makeCopy();
+
+			for (int j = 0; j < i; j++) {
+				Vector proj = orthonormalVectors.get(j).multiplyByScalar(vectors.get(i).innerProduct(orthonormalVectors.get(j)));
+				v = v.addVectors(proj, -1);
+			}
+		
+			v.normalize();
+			orthonormalVectors.add(v);
+		}
+		return orthonormalVectors;
+	}
+	
+	// given a list of linearly independent vectors, returns a list
+	// of orthonormal vectors with the same span. Uses the modified gram schmidt
+	// algorithm for numerical stability  
+	public static List<Vector> gramSchmidtModified(List<Vector> vectors) {
+		List<Vector> orthonormalVectors = new ArrayList<Vector>();
+		for (int i = 0; i < vectors.size(); i++) {
+			Vector v = vectors.get(i).makeCopy();
+
+			for (int j = 0; j < i; j++) {
+				Vector proj = orthonormalVectors.get(j).multiplyByScalar(v.innerProduct(orthonormalVectors.get(j)));
+				v = v.addVectors(proj, -1);
+			}
+		
+			v.normalize();
+			orthonormalVectors.add(v);
+		}
+		return orthonormalVectors;
+	}	
+	
+}

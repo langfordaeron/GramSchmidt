@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="GramSchmidtTest" project="GramSchmidt" tests="9" started="9" failures="0" errors="0" ignored="0">
+  <testsuite name="GramSchmidtTest" time="0.04">
+    <testcase name="testKhanExampleSmallBlock" classname="GramSchmidtTest" time="0.0"/>
+    <testcase name="testKhanExampleSmall" classname="GramSchmidtTest" time="0.0"/>
+    <testcase name="testKhanExampleSmallModified" classname="GramSchmidtTest" time="0.0"/>
+    <testcase name="testKhanExampleLargerModified" classname="GramSchmidtTest" time="0.0"/>
+    <testcase name="testOrthogonalityRandomSmallModified" classname="GramSchmidtTest" time="0.0"/>
+    <testcase name="testOrthogonalityRandomLargerModified" classname="GramSchmidtTest" time="0.028"/>
+    <testcase name="testKhanExampleLarger" classname="GramSchmidtTest" time="0.0"/>
+    <testcase name="testOrthogonalityRandomSmall" classname="GramSchmidtTest" time="0.0"/>
+    <testcase name="testOrthogonalityRandomLarger" classname="GramSchmidtTest" time="0.012"/>
+  </testsuite>
+</testrun>

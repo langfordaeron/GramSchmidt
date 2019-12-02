@@ -3,6 +3,28 @@ import java.util.List;
 
 public class GramSchmidt {
 	
+	/*
+	public static Matrix gramSchmidt(Matrix input) {
+		Matrix orthonormalVectors = new Matrix(input.getN(), input.getM(), new double[input.getN()][input.getM()]);
+		for (int i = 0; i < input.getM(); i++) {
+			Vector v = vectors.get(i).makeCopy();
+
+			for (int j = 0; j < i; j++) {
+				Vector proj = orthonormalVectors.get(j).multiplyByScalar(vectors.get(i).innerProduct(orthonormalVectors.get(j)));
+				v = v.addVectors(proj, -1);
+			}
+		
+			v.normalize();
+			orthonormalVectors.add(v);
+		}
+		return orthonormalVectors;
+	}
+	*/
+	
+	
+	
+	
+	
 	// given a list of linearly independent vectors, returns a list
 	// of orthonormal vectors with the same span. Uses the gram schmidt
 	// algorithm 
@@ -40,5 +62,27 @@ public class GramSchmidt {
 		}
 		return orthonormalVectors;
 	}	
+
+	public static List<Vector> gramSchmidtBlocked(List<Vector> vectors, int blockSize) {
+		List<Vector> orthonormalVectors = new ArrayList<Vector>();
+		for (int i = 0; i < vectors.size(); i++) {
+			Vector v = vectors.get(i).makeCopy();
+
+			for (int j = 0; j < i; j += blockSize) {
+				Vector vCopy = v.makeCopy();
+				Vector sum = new Vector(vCopy.getData().length);
+				for (int k = j; (k < j + blockSize) && (k < i); k++) {
+					Vector proj = orthonormalVectors.get(k).multiplyByScalar(vCopy.innerProduct(orthonormalVectors.get(k)));
+					vCopy = vCopy.addVectors(proj, -1);
+					sum = sum.addVectors(proj, 1);
+				}
+				v = v.addVectors(sum, -1);
+			}
+		
+			v.normalize();
+			orthonormalVectors.add(v);
+		}
+		return orthonormalVectors;
+	}
 	
 }

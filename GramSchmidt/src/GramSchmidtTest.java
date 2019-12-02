@@ -95,6 +95,50 @@ public class GramSchmidtTest {
 			assertArrayEquals(resultExpected.get(i).getData(), resultActual.get(i).getData(), 1E-13);				
 		}
 	}
+	
+	@Test
+	public void testKhanExampleSmallBlock() {
+		List<Vector> vectors = new ArrayList<Vector>();		
+		vectors.add(new Vector(4, new double[]{0, 0, 1, 1}));
+		vectors.add(new Vector(4, new double[]{0, 1, 1, 0}));
+		vectors.add(new Vector(4, new double[]{1, 1, 0, 0}));
+
+		List<Vector> resultActual = GramSchmidt.gramSchmidtBlocked(vectors, 2);
+		List<Vector> resultExpected = new ArrayList<Vector>();
+		resultExpected.add(new Vector(4, new double[]{0, 0, 1 / Math.sqrt(2), 1 / Math.sqrt(2)}));
+		resultExpected.add(new Vector(4, new double[]{0, Math.sqrt(2.0 / 3.0), 0.5 * Math.sqrt(2.0 / 3.0), -0.5 * Math.sqrt(2.0 / 3.0)}));
+		resultExpected.add(new Vector(4, new double[]{3 * (1 / (2 * Math.sqrt(3))), 
+				1 / (2 * Math.sqrt(3)), -1 / (2 * Math.sqrt(3)), 1 / (2 * Math.sqrt(3))}));
+
+		for (int i = 0; i < 3; i++) {
+			assertArrayEquals(resultExpected.get(i).getData(), resultActual.get(i).getData(), 1E-13);				
+		}
+	}
+	
+	@Test
+	public void testKhanExampleLargerBlocked() {
+		List<Vector> vectors = new ArrayList<Vector>();		
+		vectors.add(new Vector(4, new double[]{1, 2, 3, 4}));
+		vectors.add(new Vector(4, new double[]{1, 1, 2, 3}));
+		vectors.add(new Vector(4, new double[]{-3, 0, 2, 1}));
+		vectors.add(new Vector(4, new double[]{2, 4, 1, -2}));
+
+		List<Vector> resultActual = GramSchmidt.gramSchmidtBlocked(vectors, 2);
+		List<Vector> resultExpected = new ArrayList<Vector>();
+		resultExpected.add(new Vector(4, new double[]{1 / Math.sqrt(30), 2  / Math.sqrt(30),
+				3 / Math.sqrt(30), 4 / 1 / Math.sqrt(30)}));
+		resultExpected.add(new Vector(4, new double[]{Math.sqrt(10.0 / 3.0) * (3.0 / 10.0),
+				Math.sqrt(10.0 / 3.0) * (- 2.0 / 5.0), Math.sqrt(10.0 / 3.0) * (-1.0 / 10.0), Math.sqrt(10.0 / 3.0) * (1.0 / 5.0)}));
+		resultExpected.add(new Vector(4, new double[]{Math.sqrt(3.0 / 29.0) * (-7.0 / 3.0), 
+				Math.sqrt(3.0 / 29.0) * (-5.0 / 3.0), Math.sqrt(3.0 / 29.0), Math.sqrt(3.0 / 29.0) * (2.0 / 3.0)}));
+		resultExpected.add(new Vector(4, new double[]{Math.sqrt(29.0 / 3.0) * (15.0 / (29.0 * 5)), 
+				Math.sqrt(29.0 / 3.0) * (-10.0 / (29.0 * 5.0)), Math.sqrt(29.0 / 3.0) * (35.0 / (29.0 * 5.0)),
+				Math.sqrt(29.0 / 3.0) * (-25.0 / (29.0 * 5.0))}));
+
+		for (int i = 0; i < 4; i++) {
+			assertArrayEquals(resultExpected.get(i).getData(), resultActual.get(i).getData(), 1E-13);				
+		}
+	}
 
 	/*
 	 * creates 4 x 4 matrix in which each element (i, j) 
@@ -143,6 +187,33 @@ public class GramSchmidtTest {
 
 		double[][] matrix = new double[4][4];
 		List<Vector> result = GramSchmidt.gramSchmidtModified(vectors);
+		for (int i = 0; i < result.size(); i++) {
+			for (int j = 0; j < result.size(); j++) {
+				matrix[i][j] = result.get(i).innerProduct(result.get(j));
+			}
+		}
+		
+		for (int i = 0; i < result.size(); i++) {
+			for (int j = 0; j < result.size(); j++) {
+				if (i != j) {
+					assertEquals(matrix[i][j], 0.0, 1E-13);
+				} else {
+					assertEquals(matrix[i][j], 1.0, 1E-13);					
+				}
+			}
+		}
+	}
+	
+	@Test
+	public void testOrthogonalityRandomSmallBlocked() {
+		List<Vector> vectors = new ArrayList<Vector>();	
+		for (int i = 0; i < 4; i++) {
+			vectors.add(new Vector(4)); 
+			vectors.get(i).addRandomData();
+		}
+
+		double[][] matrix = new double[4][4];
+		List<Vector> result = GramSchmidt.gramSchmidtBlocked(vectors, 2);
 		for (int i = 0; i < result.size(); i++) {
 			for (int j = 0; j < result.size(); j++) {
 				matrix[i][j] = result.get(i).innerProduct(result.get(j));
@@ -211,6 +282,34 @@ public class GramSchmidtTest {
 					assertEquals(0.0, matrix[i][j], 1E-12);
 				} else {
 					assertEquals(1.0, matrix[i][j], 1E-12);					
+				}
+			}
+		}
+	}
+	
+	@Test 
+	public void testOrthogonalityRandomLargerBlocked() {
+		int testSize = 100;
+		List<Vector> vectors = new ArrayList<Vector>();	
+		for (int i = 0; i < testSize; i++) {
+			vectors.add(new Vector(testSize)); 
+			vectors.get(i).addRandomData();
+		}
+
+		double[][] matrix = new double[testSize][testSize];
+		List<Vector> result = GramSchmidt.gramSchmidtBlocked(vectors, 10);
+		for (int i = 0; i < result.size(); i++) {
+			for (int j = 0; j < result.size(); j++) {
+				matrix[i][j] = result.get(i).innerProduct(result.get(j));
+			}
+		}
+		
+		for (int i = 0; i < result.size(); i++) {
+			for (int j = 0; j < result.size(); j++) {
+				if (i != j) {
+					assertEquals(0.0, matrix[i][j], 1E-10);
+				} else {
+					assertEquals(1.0, matrix[i][j], 1E-10);					
 				}
 			}
 		}

@@ -1,0 +1,172 @@
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class GramSchmidtTestVisual {
+	
+	public static int NUM_VECTORS = 50;
+	public static int VECTOR_SIZE = 50; 
+	
+	public static void main(String[] args) {
+		orthogonalityTestGramSchmidt();
+		orthogonalityTestGramSchmidtModified();
+		//printGramSchmidtMatrix();
+		//printGramSchmidtMatrixModified();
+		//printsGramSchmidtLinearlyDependentVectors();
+		linearIndependenceTestGramSchmidt();
+		linearIndependenceTestGramSchmidtModified();
+	}
+	
+	// computes the norm of I - Q^T * Q
+	public static void orthogonalityTestGramSchmidt() {
+		System.out.print("Orthogonality Test with Unmodified: ");
+		List<Vector> vectors = populateRandomVectors(10, 10);
+		List<Vector> result = GramSchmidt.gramSchmidt(vectors);
+		Matrix matrixResult = new Matrix(10, 10, result);
+		Matrix resultTranspose = matrixResult.getTranspose();
+		Matrix identity = makeIdentityMatrix(10);
+		Matrix difference = identity.getDifference(matrixResult.getDotProduct(resultTranspose));
+		System.out.println(difference.getNorm());
+	}
+	
+	// computes the norm of I - Q^T * Q
+	public static void orthogonalityTestGramSchmidtModified() {
+		System.out.print("Orthogonality Test with Modified: ");
+		List<Vector> vectors = populateRandomVectors(10, 10);
+		List<Vector> result = GramSchmidt.gramSchmidtModified(vectors);
+		Matrix matrixResult = new Matrix(10, 10, result);
+		Matrix resultTranspose = matrixResult.getTranspose();
+		Matrix identity = makeIdentityMatrix(10);
+		Matrix difference = identity.getDifference(matrixResult.getDotProduct(resultTranspose));
+		System.out.println(difference.getNorm());
+	}
+
+	public static void linearIndependenceTestGramSchmidt() {
+		System.out.print("Linear Independence Test with Unmodified: ");
+		List<Vector> vectors = populateRandomVectors(10, 10);
+		Matrix matrixA = new Matrix(10, 10, vectors); // A
+		List<Vector> result = GramSchmidt.gramSchmidt(vectors);
+		Matrix matrixQ = new Matrix(10, 10, result); // Q
+		Matrix resultQT = matrixQ.getTranspose(); //Q^T
+		Matrix difference = matrixA.getDifference(matrixQ.getDotProduct(resultQT).getDotProduct(matrixA));
+		System.out.println(difference.getNorm());
+	}
+
+	public static void linearIndependenceTestGramSchmidtModified() {
+		System.out.print("Linear Independence Test with Modified: ");
+		List<Vector> vectors = populateRandomVectors(10, 10);
+		Matrix matrixA = new Matrix(10, 10, vectors); // A
+		List<Vector> result = GramSchmidt.gramSchmidtModified(vectors);
+		Matrix matrixQ = new Matrix(10, 10, result); // Q
+		Matrix resultQT = matrixQ.getTranspose(); //Q^T
+		Matrix difference = matrixA.getDifference(matrixQ.getDotProduct(resultQT).getDotProduct(matrixA));
+		System.out.println(difference.getNorm());
+	}
+	
+	// prints a matrix of size VECTOR_SIZE x NUM_VECTORS with each 
+	// element being the inner product of each vector from the result of 
+	// Gram Schmidt times 10^{10} 
+	public static void printGramSchmidtMatrix() {
+		System.out.println("Regular Gram Schmidt");
+		List<Vector> vectors = populateRandomVectors(NUM_VECTORS, VECTOR_SIZE);
+		List<Vector> result = GramSchmidt.gramSchmidt(vectors);
+		double[][] matrix = populateMatrixTest(result, NUM_VECTORS, VECTOR_SIZE);
+		printMatrixMagnified(matrix, Math.pow(10, 11));
+	}
+
+	// prints a matrix of size VECTOR_SIZE x NUM_VECTORS with each 
+	// element being the inner product of each vector from the result of 
+	// Modified Gram Schmidt times 10^{10} 
+	public static void printGramSchmidtMatrixModified() {
+		System.out.println("Modified Gram Schmidt");
+		List<Vector> vectors = populateRandomVectors(NUM_VECTORS, VECTOR_SIZE);
+		List<Vector> result = GramSchmidt.gramSchmidtModified(vectors);
+		double[][] matrix = populateMatrixTest(result, NUM_VECTORS, VECTOR_SIZE);
+		printMatrixMagnified(matrix, Math.pow(10, 11));
+	}
+	
+	public static void printsGramSchmidtLinearlyDependentVectors() {
+		System.out.println("Gram Schmidt with Linearly Dependent Vectors");
+		int numVectors = 5, vectorSize = 5;
+		List<Vector> vectors = populateRandomDependentVectors(numVectors, vectorSize);
+		System.out.println("Original Vectors: ");
+		for (Vector vector: vectors) {
+			System.out.println(vector);
+		}
+		System.out.println("Inner Product Matrix: ");
+		List<Vector> result = GramSchmidt.gramSchmidt(vectors);
+		double[][] matrix = populateMatrixTest(result, numVectors, vectorSize);
+		printMatrixMagnified(matrix, Math.pow(10, 11));	
+	}
+	
+	// span of q1, q2, q3 ... a1, a2, a3
+	
+	public static List<Vector> populateRandomVectors(int numVectors, int vectorSize) {
+		List<Vector> vectors = new ArrayList<Vector>();	
+		for (int i = 0; i < numVectors; i++) {
+			vectors.add(new Vector(vectorSize)); 
+			vectors.get(i).addRandomData();
+		}
+		return vectors;
+	}
+	
+	// populates list of random normalized linearly independent vectors
+	// by generating 5 vectors with random floating point values
+	// from 0 to 1. Then we select one vector and add very large components
+	// of two other vectors from the list. Then all vectors are normalized. 
+	public static List<Vector> populateRandomDependentVectors(int numVectors, int vectorSize) {
+		List<Vector> vectors = new ArrayList<Vector>();	
+		for (int i = 0; i < numVectors; i++) {
+			vectors.add(new Vector(vectorSize)); 
+			vectors.get(i).addRandomData();
+		}
+		Random rand = new Random();
+		int largeRandom1 = rand.nextInt(1000) + 1000; // random between [1000, 2000)
+		int largeRandom2 = rand.nextInt(1000) + 1000; // random between [1000, 2000)
+		Vector v1 = vectors.get(0);
+		Vector v2 = vectors.get(1);
+		Vector v3 = vectors.get(2);
+		v3 = v3.addVectors(v1, largeRandom1);
+		v3 = v3.addVectors(v2, largeRandom2);
+		for (int i = 0; i < numVectors; i++) {
+			vectors.get(i).normalize();
+		}
+		return vectors;
+	}
+	
+	public static double[][] populateMatrixTest(List<Vector> result, int numVectors, int vectorSize) {
+		double[][] matrix = new double[numVectors][vectorSize];
+		for (int i = 0; i < result.size(); i++) {
+			for (int j = 0; j < result.size(); j++) {
+				matrix[i][j] = result.get(i).innerProduct(result.get(j));
+			}
+		}
+		return matrix;
+	}
+	
+	public static void printMatrixMagnified(double[][] matrix, double scaleBy) {
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
+		        DecimalFormat df = new DecimalFormat("####0.0000");
+		        System.out.print(Double.parseDouble(df.format(Math.abs(matrix[i][j] * scaleBy))) + "\t");
+			    //System.out.printf("%4f\t", (matrix[i][j]) * Math.pow(10, 10));
+			}
+			System.out.println();
+		}
+	}
+	
+	public static Matrix makeIdentityMatrix(int numVectors) {
+		double[][] data = new double[numVectors][numVectors];
+		for (int i = 0; i < numVectors; i++) {
+			for (int j = 0; j < numVectors; j++) {
+				if (i == j) {
+					data[i][j] = 1;
+				} else {
+					data[i][j] = 0;
+				}
+			}
+		}
+		return new Matrix(numVectors, numVectors, data);
+	}
+}

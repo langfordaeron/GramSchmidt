@@ -1,0 +1,109 @@
+import java.util.Arrays;
+import java.util.List;
+
+public class Matrix {
+
+	private int n;
+	private int m;
+	private double[][] matrix;
+	
+	public Matrix(int n, int m) {
+		this.n = n;
+		this.m = m;
+		this.matrix = new double[n][m];
+	}
+
+	// creates new n by m matrix with each column being a vector 
+	// (n rows, m columns)
+	public Matrix(int n, int m, List<Vector> vectors) {
+		this(n, m);
+		if (vectors.size() != n) {
+			throw new IllegalArgumentException("size of vectors is " + vectors.size() + " should be " + n);
+		}
+		for (int i = 0; i < n; i++) {
+			Vector v = vectors.get(i);
+			for (int j = 0; j < m; j++) {
+				matrix[i][j] = v.getData()[j];
+			}
+		}
+	}
+	
+	public Matrix(int n, int m, double[][] data) {
+		this(n, m);
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				this.matrix[i][j] = data[i][j];
+			}
+		}
+	}
+	
+	public double[] getColumn(int col) {
+		double[] column = new double[this.m];
+		for (int i = 0; i < this.m; i++) {
+			column[i] = this.matrix[i][col];
+		}
+		return column;
+	}
+	
+	public Matrix getTranspose() {
+		double[][] transpose = new double[this.m][this.n];
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				transpose[j][i] = this.matrix[i][j];
+			}
+		}
+		return new Matrix(this.m, this.n, transpose); 
+	}
+	
+	public Matrix getDifference(Matrix other) {
+		if (this.n != other.n || this.m != other.m) {
+			throw new IllegalArgumentException("matrices not the same size");
+		}
+		double[][] difference = new double[this.n][this.m];
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				difference[i][j] = this.matrix[i][j] - other.matrix[i][j];
+			}
+		}
+		return new Matrix(this.n, this.m, difference);
+	}
+	
+	public Matrix getDotProduct(Matrix other) {
+		if (this.m != other.n) {
+			throw new IllegalArgumentException("matrices not the compatible sizes");
+		}
+		double[][] product = new double[this.n][other.m];
+		for (int i = 0; i < this.n; i++) {
+			for (int j = 0; j < other.m; j++) {
+				for (int k = 0; k < this.m; k++) {
+					product[i][j] += this.matrix[i][k] * other.matrix[k][j];
+				}
+			}
+		}
+		
+		return new Matrix(this.n, other.m, product);
+	}
+	
+	// returns the frobenius norm 
+	public double getNorm() {
+		double sum = 0.0; 
+		for (int i = 0; i < this.n; i++) {
+			for (int j = 0; j < this.m; j++) {
+				sum += Math.pow(this.matrix[i][j], 2);
+			}
+		}
+		return Math.sqrt(sum);
+	}
+	
+	public double[][] getData() {
+		return this.matrix; // should change to deep copy 
+	}
+	
+	public int getN() {
+		return this.n;
+	}
+	
+	public int getM() {
+		return this.m;
+	}
+}

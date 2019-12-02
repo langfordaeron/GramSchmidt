@@ -13,7 +13,8 @@ public class Matrix {
 		this.matrix = new double[n][m];
 	}
 
-	// creates new n by m matrix with each column being a vector
+	// creates new n by m matrix with each column being a vector 
+	// (n rows, m columns)
 	public Matrix(int n, int m, List<Vector> vectors) {
 		this(n, m);
 		if (vectors.size() != n) {
@@ -34,6 +35,23 @@ public class Matrix {
 				this.matrix[i][j] = data[i][j];
 			}
 		}
+	}
+	
+	// makes a Matrix of size n x 1 (vector)
+	public Matrix(int n, double[] data) {
+		this(n, 1);
+		for (int i = 0; i < n; i++) {
+			this.matrix[i][1] = data[i];
+		}
+	}
+	
+	
+	public Matrix getColumn(int col) {
+		double[] column = new double[this.n];
+		for (int i = 0; i < this.n; i++) {
+			column[i] = this.matrix[i][col];
+		}
+		return (new Matrix(this.n, column)).getTranspose();
 	}
 	
 	public Matrix getTranspose() {
@@ -90,4 +108,11 @@ public class Matrix {
 		return this.matrix; // should change to deep copy 
 	}
 	
+	public int getN() {
+		return this.n;
+	}
+	
+	public int getM() {
+		return this.m;
+	}
 }
